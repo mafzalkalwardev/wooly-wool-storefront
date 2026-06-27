@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Custom Order — Wooly Wool</title>
+
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!--CDN ICON-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="page-enter">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+
+      <a class="navbar-brand brand-badge" href="index.html">
+        <span class="brand d-flex align-items-center gap-2">
+          <img src="assets/img/logo.png" alt="Wooly Wool Logo">
+          <span>
+            <div class="fw-bold">Wooly Wool</div>
+            <div class="tag">Stitches With Love</div>
+          </span>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard/admin.html">Admin</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="py-5">
+    <div class="container">
+      <div class="hero-box fade-up">
+        <h1 class="hero-title mb-2">Custom Order</h1>
+
+        <p class="hero-sub">
+          Request handmade products or custom embroidery by submitting details below.
+          We will confirm everything on WhatsApp.
+          <br>
+          <b class="text-muted-custom">
+            ⏳ Custom orders require minimum <span style="color:var(--brownDark)">2 weeks</span> to get ready.
+          </b>
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="pb-5">
+    <div class="container">
+      <div class="row g-3">
+
+        <!-- FORM -->
+        <div class="col-lg-7">
+          <div class="product-card p-4 fade-up hover-lift">
+            <h4 class="fw-bold mb-3">
+              <i class="bi bi-pencil-square me-2"></i> Custom Order Form
+            </h4>
+
+            <form id="customOrderForm">
+
+              <div class="row g-2">
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Full Name *</label>
+                  <input type="text" id="coName" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Phone (WhatsApp) *</label>
+                  <input type="number" id="coPhone" class="form-control" placeholder="03xx..." maxlength="11" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">City *</label>
+                  <input id="coCity" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Order Type *</label>
+                  <select id="coType" class="form-select" required>
+                    <option value="" selected disabled>Select type</option>
+                    <option value="Handmade Wool Item">Handmade Wool Item</option>
+                    <option value="Custom Embroidery">Custom Embroidery</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-bold">Product Details *</label>
+                  <textarea id="coDetails" class="form-control" rows="3" required
+                    placeholder="Example: Wool cap, black color, size medium / Embroidery name: Ahmed, font style..."></textarea>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-bold">Delivery Address *</label>
+                  <textarea id="coAddress" class="form-control" rows="2" required></textarea>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Preferred Payment *</label>
+                  <select id="coPayMethod" class="form-select" required>
+                    <option value="" selected disabled>Select payment method</option>
+                    <option>Cash on Delivery</option>
+                    <option>Easypaisa</option>
+                    <option>NayaPay</option>
+                    <option>Card Payment</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Estimated Budget (optional)</label>
+                  <input type="number" id="coBudget" class="form-control" placeholder="e.g 2500">
+                </div>
+
+                <!-- Card details (only for Card Payment) -->
+                <div id="coCardBox" class="col-12 d-none">
+                  <div class="card-glass p-3 mt-2">
+                    <div class="fw-bold mb-2">
+                      <i class="bi bi-credit-card-2-front-fill me-2"></i> Card Details
+                    </div>
+
+                    <div class="row g-2">
+                      <div class="col-md-6">
+                        <label class="form-label fw-bold">Card Holder Name *</label>
+                        <input type="text" id="coCardName" class="form-control" placeholder="e.g Ahmed">
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label fw-bold">Card Number *</label>
+                        <input type="number" id="coCardNumber" class="form-control"
+                          placeholder="0000 0000 0000 0000" maxlength="20">
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label fw-bold">Expiry *</label>
+                        <input type="date" id="coCardExpiry" class="form-control">
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label fw-bold">CVV *</label>
+                        <input type="number" id="coCardCVV" class="form-control" placeholder="123">
+                      </div>
+                    </div>
+
+                    <div class="text-muted-custom small mt-2">
+                      ⚠️ For demo/project only. Do not enter real card details.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 mt-2">
+                  <button class="btn btn-primary w-100 py-2" type="submit">
+                    Submit Custom Order
+                  </button>
+                </div>
+
+              </div>
+
+            </form>
+
+            <div class="text-muted-custom small mt-3">
+              After submitting, you’ll be redirected to WhatsApp to confirm your order.
+              <br>
+              <b>Note:</b> Custom orders require minimum <b>2 weeks</b> preparation time.
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="col-lg-5">
+
+          <!-- ✅ Production / Timeline -->
+          <div class="product-card p-4 fade-up delay-1 hover-lift">
+            <h4 class="fw-bold mb-3">
+              <i class="bi bi-clock-history me-2"></i> Production Timeline
+            </h4>
+
+            <div class="card-glass p-3">
+              <div class="fw-bold" style="color:var(--brownDark);">
+                Minimum 2 weeks required
+              </div>
+              <div class="text-muted-custom small mt-1">
+                Custom orders are handmade and prepared after confirmation, so please allow at least
+                <b>14 days</b> for production.
+              </div>
+            </div>
+
+            <div class="text-muted-custom small mt-3">
+              Delivery time depends on city & courier service.
+            </div>
+          </div>
+
+        </div>
+         <!-- Payment policy -->
+          <div class="product-card p-4 mt-3 delay-2 hover-lift">
+            <h4 class="fw-bold mb-3">
+              <i class="bi bi-shield-check me-2"></i> Payment Policy
+            </h4>
+
+            <div class="row g-2">
+              <div class="col-12">
+                <div class="card-glass p-3">
+                  <div class="fw-bold" style="color:var(--brownDark);">Orders above Rs. 3000</div>
+                  <div class="text-muted-custom small mt-1">
+                    <b>30% advance required</b> to confirm order.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="card-glass p-3">
+                  <div class="fw-bold" style="color:var(--brownDark);">Remaining Amount</div>
+                  <div class="text-muted-custom small mt-1">
+                    Paid via <b>Cash on Delivery (COD)</b>.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-muted-custom small mt-3">
+              Account details (Bank / Easypaisa / Card) will be shared after order confirmation.
+            </div>
+
+            <div class="mt-3">
+              <a href="policy.html" class="btn btn-outline-light w-100">
+                View Full Payment Policy
+              </a>
+            </div>
+          </div>
+        <!-- How it works -->
+        <div class="product-card p-4 mt-3 fade-up delay-2 hover-lift">
+          <h4 class="fw-bold mb-3">
+            <i class="bi bi-lightning-charge-fill me-2"></i> How it Works
+          </h4>
+
+          <ol class="text-muted-custom mb-0">
+            <li>Submit custom order details</li>
+            <li>We confirm pricing & timeline</li>
+            <li>Advance payment if needed</li>
+            <li>Order delivered in World</li>
+          </ol>
+        </div>
+
+        <!-- Quick contact -->
+        <div class="card-glass p-4 mt-3 fade-up delay-3 hover-glow">
+          <div class="fw-bold">Need help?</div>
+          <div class="text-muted-custom small">
+            Send your custom design reference on WhatsApp.
+          </div>
+
+          <a id="customWA" class="btn btn-primary w-100 mt-3" href="#" target="_blank">
+            <i class="bi bi-whatsapp me-2"></i> WhatsApp
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer mt-5">
+    <div class="container py-5">
+      <div class="row g-4 align-items-start">
+
+        <div class="col-lg-5">
+          <div class="fw-bold fs-5">Wooly Wool</div>
+          <div class="text-muted-custom mt-2" style="max-width:48ch;">
+            Handmade wool items & custom embroidery — crafted with care and delivered across World.
+          </div>
+
+          <div class="mt-3 small text-muted-custom d-flex flex-column gap-2">
+            <div><i class="bi bi-truck me-2"></i>Delivery All across World</div>
+            <div><i class="bi bi-clock me-2"></i>Support: 10 AM – 10 PM</div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="row g-4">
+
+            <div class="col-md-4">
+              <div class="fw-bold mb-2">Quick Links</div>
+              <div class="d-flex flex-column gap-2">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="dashboard/admin.html">Admin</a>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="fw-bold mb-2">Policies</div>
+              <div class="d-flex flex-column gap-2">
+                <a href="return-policy.html">Return Policy</a>
+                <a href="policy.html">Payment Policy</a>
+                <a href="shipping-policy.html">Shipping Policy</a>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="fw-bold mb-2">Contact</div>
+              <div class="d-flex flex-column gap-2">
+                <a class="d-inline-flex align-items-center gap-2" target="_blank" href="https://wa.me/923330945633">
+                  <i class="bi bi-whatsapp"></i>
+                  <span>+92 333 0945633</span>
+                </a>
+
+                <a class="d-inline-flex align-items-center gap-2" target="_blank"
+                  href="https://www.instagram.com/wooly_wool_?igsh=MnB4NzNkaWI1N2pu">
+                  <i class="bi bi-instagram"></i>
+                  <span>@wooly_wool_</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="my-4">
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 small text-muted-custom">
+        <div>© <span id="year"></span> Wooly Wool. All rights reserved.</div>
+        <div>Made with care • Handmade products</div>
+      </div>
+    </div>
+  </footer>
+
+  <a id="floatingWhatsApp" class="floating-whatsapp" href="#" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // WhatsApp buttons same as floating WA
+    setTimeout(() => {
+      const f = document.getElementById("floatingWhatsApp");
+      const c = document.getElementById("customWA");
+      if (f && c) c.href = f.href;
+    }, 200);
+
+    function toggleCustomCardFields() {
+      const method = document.getElementById("coPayMethod").value;
+      const box = document.getElementById("coCardBox");
+
+      const cardName = document.getElementById("coCardName");
+      const cardNumber = document.getElementById("coCardNumber");
+      const cardExpiry = document.getElementById("coCardExpiry");
+      const cardCVV = document.getElementById("coCardCVV");
+
+      if (method === "Card Payment") {
+        box.classList.remove("d-none");
+        cardName.required = true;
+        cardNumber.required = true;
+        cardExpiry.required = true;
+        cardCVV.required = true;
+      } else {
+        box.classList.add("d-none");
+        cardName.required = false;
+        cardNumber.required = false;
+        cardExpiry.required = false;
+        cardCVV.required = false;
+
+        cardName.value = "";
+        cardNumber.value = "";
+        cardExpiry.value = "";
+        cardCVV.value = "";
+      }
+    }
+
+    document.getElementById("coPayMethod").addEventListener("change", toggleCustomCardFields);
+
+    // submit form -> WhatsApp
+    document.getElementById("customOrderForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // ✅ Confirmation about 2 weeks
+      if (!confirm("Custom orders take minimum 2 weeks to get ready. Do you want to continue?")) {
+        return;
+      }
+
+      const name = document.getElementById("coName").value.trim();
+      const phone = document.getElementById("coPhone").value.trim();
+      const city = document.getElementById("coCity").value.trim();
+      const type = document.getElementById("coType").value;
+      const details = document.getElementById("coDetails").value.trim();
+      const address = document.getElementById("coAddress").value.trim();
+      const pay = document.getElementById("coPayMethod").value;
+      const budget = document.getElementById("coBudget").value.trim();
+
+      if (!name || !phone || !city || !type || !details || !address || !pay) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      // save payment selection
+      localStorage.setItem("woolywaal_selected_payment", pay);
+
+      // card info if card selected
+      let cardMsg = "";
+      if (pay === "Card Payment") {
+        const cardName = document.getElementById("coCardName").value.trim();
+        const cardNumber = document.getElementById("coCardNumber").value.trim();
+        const cardExpiry = document.getElementById("coCardExpiry").value.trim();
+        const cardCVV = document.getElementById("coCardCVV").value.trim();
+
+        if (!cardName || !cardNumber || !cardExpiry || !cardCVV) {
+          alert("Please enter card details.");
+          return;
+        }
+
+        cardMsg =
+          `%0A%0ACard Details:%0A` +
+          `Card Holder: ${cardName}%0A` +
+          `Card Number: ${cardNumber}%0A` +
+          `Expiry: ${cardExpiry}%0A` +
+          `CVV: ${cardCVV}%0A`;
+      }
+
+      const settings = JSON.parse(localStorage.getItem("woolywool_settings") || "{}");
+      const wa = String(settings.whatsapp || "+923079670503").replaceAll(" ", "").replace("+", "");
+
+      let msg = `Assalam o Alaikum! I want to place a Custom Order from Wooly Wool.%0A%0A`;
+      msg += `Name: ${name}%0A`;
+      msg += `Phone: ${phone}%0A`;
+      msg += `City: ${city}%0A`;
+      msg += `Order Type: ${type}%0A`;
+      msg += `Payment Method: ${pay}%0A`;
+      if (budget) msg += `Budget: Rs. ${budget}%0A`;
+
+      // ✅ add timeline in WhatsApp msg
+      msg += `%0AProduction Time: Minimum 2 weeks (14 days)%0A`;
+
+      msg += `%0ADetails:%0A${details}%0A`;
+      msg += `%0AAddress:%0A${address}%0A`;
+
+      msg += cardMsg;
+
+      window.open(`https://wa.me/${wa}?text=${msg}`, "_blank");
+    });
+  </script>
+
+</body>
+
+</html>

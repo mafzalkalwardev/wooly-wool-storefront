@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Wool Sweater",
+    "description": "Premium cozy wool sweater for winter",
+    "price": 99.99,
+    "category": "Apparel",
+    "images": [
+      "sweater-front.jpg",
+      "sweater-back.jpg",
+      "sweater-detail.jpg"
+    ],
+    "createdAt": "2026-02-03T22:38:17.481Z",
+    "updatedAt": "2026-02-03T22:39:10.010Z"
+  }
+]

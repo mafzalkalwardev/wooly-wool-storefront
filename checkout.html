@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Checkout — Wooly Wool</title>
+
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!--CDN ICON-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    /* ✅ Order placed popup */
+    .ww-overlay{
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: rgba(0,0,0,0.55);
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      animation: fadeIn .22s ease;
+    }
+    .ww-card{
+      width: min(560px, 92vw);
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.25);
+      padding: 26px;
+      position: relative;
+      text-align: center;
+      animation: pop .26s ease;
+    }
+    .ww-title{
+      font-size: 26px;
+      font-weight: 1000;
+      margin-top: 6px;
+    }
+    .ww-sub{
+      margin-top: 8px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.65);
+      line-height: 1.4;
+    }
+    .firework{
+      font-size: 44px;
+      animation: bounce 1s infinite;
+    }
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+    @keyframes pop{
+      from{opacity:0; transform: translateY(10px) scale(.98)}
+      to{opacity:1; transform: translateY(0) scale(1)}
+    }
+    @keyframes bounce{
+      0%,100%{transform: translateY(0)}
+      50%{transform: translateY(-8px)}
+    }
+  </style>
+</head>
+
+<body class="page-enter">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand brand-badge" href="index.html">
+      <span class="brand d-flex align-items-center gap-2">
+        <img src="assets/img/logo.png" alt="Wooly Wool Logo">
+        <span>
+          <div class="fw-bold">Wooly Wool</div>
+          <div class="tag">Stitches With Love</div>
+        </span>
+      </span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+        <li class="nav-item"><a class="nav-link active" href="checkout.html">Checkout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="py-5">
+  <div class="container">
+    <div class="hero-box fade-up">
+      <h1 class="hero-title mb-2 fade-up">Checkout</h1>
+      <p class="hero-sub fade-up delay-1">Fill details and place your order.</p>
+    </div>
+  </div>
+</header>
+
+<!-- CHECKOUT -->
+<main class="pb-5">
+  <div class="container">
+    <div class="row g-3">
+
+      <!-- FORM -->
+      <div class="col-lg-7">
+        <div class="product-card p-4 fade-up hover-lift">
+          <h4 class="fw-bold mb-3">Customer Details</h4>
+
+          <form id="checkoutForm">
+            <div class="row g-2">
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Full Name *</label>
+                <input type="text" id="cName" class="form-control border-0" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Phone *</label>
+                <input type="text" id="cPhone" class="form-control border-0" required placeholder="03xx..." maxlength="11">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">City *</label>
+                <input type="text" id="cCity" class="form-control border-0" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Payment Method *</label>
+                <select id="cPaymentMethod" class="form-select border-0" required onchange="toggleCardFields()">
+                  <option value="" selected disabled>Select payment method</option>
+                  <option value="Cash on Delivery">Cash on Delivery</option>
+                  <option value="Easypaisa">Easypaisa</option>
+                  <option value="NayaPay">NayaPay</option>
+                  <option value="Card Payment">Card Payment</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold">Address *</label>
+                <textarea id="cAddress" class="form-control border-0" rows="2" required></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold">Note *</label>
+                <textarea id="cNote" class="form-control border-0" rows="2" required
+                  placeholder="Any extra note about delivery / embroidery..."></textarea>
+              </div>
+
+              <!-- Card details -->
+              <div id="cardDetailsBox" class="col-12 d-none">
+                <div class="card-glass p-3 mt-2">
+                  <div class="fw-bold mb-2">Card Payment Details</div>
+                  <div class="row g-2">
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Card Holder Name *</label>
+                      <input type="text" id="cardName" class="form-control border-0">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Card Number *</label>
+                      <input type="text" id="cardNumber" class="form-control border-0">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Expiry *</label>
+                      <input type="text" id="cardExpiry" class="form-control border-0" placeholder="08/27">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">CVV *</label>
+                      <input type="text" id="cardCVV" class="form-control border-0" placeholder="123">
+                    </div>
+                  </div>
+                  <div class="small text-muted-custom mt-2">
+                    ⚠️ For demo/project only. Don't enter real card details.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 mt-2">
+                <button id="placeOrderBtn" class="btn btn-primary w-100 py-2" type="submit">
+                  Place Order
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="col-lg-5">
+        <div class="product-card p-4 fade-up delay-1 hover-lift">
+          <h4 class="fw-bold mb-3">Order Summary</h4>
+          <div id="checkoutSummary"></div>
+        </div>
+
+        <div class="card-glass p-3 mt-3">
+          <div class="small text-muted-custom">
+            ✅ After placing order you will be redirected to WhatsApp for confirmation.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container py-4">
+    <div class="d-flex justify-content-between flex-wrap gap-2">
+      <div>© <span id="year"></span> Wooly Wool</div>
+      <div class="text-muted-custom">Handmade Wool • Custom Embroidery • Pakistan</div>
+    </div>
+  </div>
+</footer>
+
+<a id="floatingWhatsApp" class="floating-whatsapp" href="#" target="_blank">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function toggleCardFields(){
+    const method = document.getElementById("cPaymentMethod").value;
+    const box = document.getElementById("cardDetailsBox");
+
+    if(method === "Card Payment"){
+      box.classList.remove("d-none");
+      document.getElementById("cardName").required = true;
+      document.getElementById("cardNumber").required = true;
+      document.getElementById("cardExpiry").required = true;
+      document.getElementById("cardCVV").required = true;
+    }else{
+      box.classList.add("d-none");
+      document.getElementById("cardName").required = false;
+      document.getElementById("cardNumber").required = false;
+      document.getElementById("cardExpiry").required = false;
+      document.getElementById("cardCVV").required = false;
+    }
+  }
+
+  function generateOrderId(){
+    return "ORD-" + Math.floor(100000 + Math.random() * 900000);
+  }
+
+  function showOrderPopup(orderId){
+    const overlay = document.createElement("div");
+    overlay.className = "ww-overlay";
+    overlay.innerHTML = `
+      <div class="ww-card">
+        <div class="firework">🎉✨🎆</div>
+        <div class="ww-title">Order Placed Successfully!</div>
+        <div class="ww-sub">
+          Thank you for ordering from <b>Wooly Wool</b> 💛<br>
+          Your Order ID is: <b>${orderId}</b><br>
+          Redirecting to WhatsApp for confirmation...
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  function getCartDetailedSimple(){
+    const cart = JSON.parse(localStorage.getItem("woolywool_cart") || "[]");
+    const products = JSON.parse(localStorage.getItem("woolywool_products") || "[]");
+
+    const items = cart.map(ci => {
+      const p = products.find(x => x.id === ci.productId);
+      if(!p) return null;
+
+      let unitPrice = 0;
+      if(p.sizes && p.sizes.length){
+        const found = p.sizes.find(s => String(ci.sizeLabel||"").includes(s.label));
+        unitPrice = found ? Number(found.price || 0) : 0;
+      }else{
+        unitPrice = Number(p.price || 0);
+      }
+
+      return {
+        ...ci,
+        productName: p.name,
+        unitPrice
+      };
+    }).filter(Boolean);
+
+    const total = items.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
+    return { items, total };
+  }
+
+  function clearCart(){
+    localStorage.setItem("woolywool_cart", JSON.stringify([]));
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // cart empty block
+    if(typeof isCartEmpty === "function" && isCartEmpty()){
+      window.location.href = "cart.html?empty=1";
+      return;
+    }
+
+    if(typeof renderCheckoutSummary === "function"){
+      renderCheckoutSummary();
+    }
+
+    // auto select saved payment
+    const savedPay = localStorage.getItem("woolywaal_selected_payment");
+    if(savedPay){
+      const select = document.getElementById("cPaymentMethod");
+      if(select){
+        const options = Array.from(select.options).map(o => o.value);
+        if(options.includes(savedPay)){
+          select.value = savedPay;
+        }
+      }
+      toggleCardFields();
+    }
+  });
+
+  // ✅ Place order handler
+  document.getElementById("checkoutForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const btn = document.getElementById("placeOrderBtn");
+    btn.disabled = true;
+    btn.innerHTML = "Placing Order...";
+
+    const name = document.getElementById("cName").value.trim();
+    const phone = document.getElementById("cPhone").value.trim();
+    const city = document.getElementById("cCity").value.trim();
+    const address = document.getElementById("cAddress").value.trim();
+    const note = document.getElementById("cNote").value.trim();
+    const paymentMethod = document.getElementById("cPaymentMethod").value;
+
+    if(!name || !phone || !city || !address || !note || !paymentMethod){
+      showToast("Please fill all fields ✅");
+      btn.disabled = false;
+      btn.innerHTML = "Place Order";
+      return;
+    }
+
+    // card validation if needed
+    let cardDetails = null;
+    if(paymentMethod === "Card Payment"){
+      const cardName = document.getElementById("cardName").value.trim();
+      const cardNumber = document.getElementById("cardNumber").value.trim();
+      const cardExpiry = document.getElementById("cardExpiry").value.trim();
+      const cardCVV = document.getElementById("cardCVV").value.trim();
+
+      if(!cardName || !cardNumber || !cardExpiry || !cardCVV){
+        showToast("Please enter card details ✅");
+        btn.disabled = false;
+        btn.innerHTML = "Place Order";
+        return;
+      }
+      cardDetails = { cardName, cardNumber, cardExpiry };
+    }
+
+    const { items, total } = getCartDetailedSimple();
+    const orderId = generateOrderId();
+
+    const orders = JSON.parse(localStorage.getItem("woolywool_orders") || "[]");
+    orders.unshift({
+      orderId,
+      customer: { name, phone, city, address },
+      items: items.map(i => ({
+        productId: i.productId,
+        name: i.productName,
+        qty: i.qty,
+        sizeLabel: i.sizeLabel || "",
+        unitPrice: i.unitPrice
+      })),
+      total,
+      paymentMethod,
+      cardDetails,
+      note,
+      status: "Pending",
+      createdAt: new Date().toISOString()
+    });
+    localStorage.setItem("woolywool_orders", JSON.stringify(orders));
+
+    // save payment method for next time
+    localStorage.setItem("woolywaal_selected_payment", paymentMethod);
+
+    // show popup
+    showOrderPopup(orderId);
+
+    // clear cart now
+    clearCart();
+
+    // WhatsApp message
+    const settings = JSON.parse(localStorage.getItem("woolywool_settings") || "{}");
+    const wa = String(settings.whatsapp || "+92 333 0945633").replaceAll(" ", "").replace("+", "");
+
+    let msg = `Assalam o Alaikum! I want to confirm my order from Wooly Wool.%0A%0A`;
+    msg += `Order ID: ${orderId}%0A`;
+    msg += `Customer: ${name}%0A`;
+    msg += `Phone: ${phone}%0A`;
+    msg += `City: ${city}%0A%0A`;
+    msg += `Items:%0A`;
+    items.forEach(it => {
+      msg += `- ${it.productName} x ${it.qty} (${it.sizeLabel || "Default"}) - Rs. ${it.unitPrice}%0A`;
+    });
+    msg += `%0ATotal: Rs. ${total}%0A`;
+    msg += `Payment Method: ${paymentMethod}%0A`;
+    msg += `%0AAddress: ${address}%0A`;
+    msg += `Note: ${note}%0A`;
+
+    setTimeout(() => {
+      window.open(`https://wa.me/${wa}?text=${msg}`, "_blank");
+      window.location.href = "order-success.html";
+    }, 1400);
+  });
+</script>
+
+</body>
+</html>

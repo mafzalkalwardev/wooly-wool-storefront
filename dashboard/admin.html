@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard — Wooly Wool</title>
+
+  <link rel="icon" type="image/png" href="../assets/img/logo.png">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Admin CSS -->
+  <link href="admin.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="../index.html">
+        <img src="../assets/img/logo.png" style="width:38px;height:38px;object-fit:contain;">
+        Wooly Wool Admin
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+          <li class="nav-item">
+            <a class="nav-link fw-bold" href="../index.html">
+              <i class="bi bi-globe2 me-1"></i> Website
+            </a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-dark" onclick="Admin.logout()">
+              <i class="bi bi-box-arrow-right me-1"></i> Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LOGIN -->
+  <section class="py-5" id="loginBox">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="admin-card p-4">
+            <h3 class="fw-bold mb-2">Admin Login</h3>
+            <p class="text-muted mb-4">Login to manage products and orders.</p>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Username</label>
+              <input id="adminUser" class="form-control" placeholder="admin">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Password</label>
+              <input id="adminPass" type="password" class="form-control" placeholder="woolywaal123">
+            </div>
+
+            <button class="btn btn-primary w-100 py-2" onclick="Admin.login()">Login</button>
+
+            <div class="small text-muted mt-3">
+              Demo: <b>admin</b> / <b>woolywaal123</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="py-4 d-none" id="dashboard">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <div>
+          <h2 class="fw-bold mb-0">Dashboard</h2>
+          <div class="text-muted">Manage products, orders & settings.</div>
+        </div>
+        <button class="btn btn-outline-dark" onclick="Admin.refresh()">
+          <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+        </button>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="row g-3">
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Total Products</div>
+            <div class="fs-3 fw-bold" id="statProducts">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Active Products</div>
+            <div class="fs-3 fw-bold" id="statActive">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Total Orders</div>
+            <div class="fs-3 fw-bold" id="statOrders">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Revenue</div>
+            <div class="fs-3 fw-bold" id="statRevenue">Rs. 0</div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Pending</div>
+            <div class="fs-3 fw-bold" id="statPending">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Confirmed</div>
+            <div class="fs-3 fw-bold" id="statConfirmed">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">In Making</div>
+            <div class="fs-3 fw-bold" id="statMaking">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Delivered</div>
+            <div class="fs-3 fw-bold" id="statDelivered">0</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="kpi">
+            <div class="text-muted small">Cancelled</div>
+            <div class="fs-3 fw-bold" id="statCancelled">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart + Add Product -->
+      <div class="row g-3 mt-2">
+        <div class="col-lg-7">
+          <div class="admin-card p-3">
+            <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-fill me-2"></i> Orders Status Graph</h5>
+            <canvas id="ordersChart" height="350"></canvas>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="admin-card p-3">
+            <h5 class="fw-bold mb-3"><i class="bi bi-box-seam me-2"></i> Add Product</h5>
+
+            <div class="row g-2">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Name *</label>
+                <input id="pName" class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Category *</label>
+                <select id="pCategory" class="form-select">
+                  <option>Handmade Wool Items</option>
+                  <option>Custom Embroidery</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Base Price *</label>
+                <input id="pPrice" type="number" class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Stock Type</label>
+                <select id="pStock" class="form-select">
+                  <option>Made on Order</option>
+                  <option>In Stock</option>
+                </select>
+              </div>
+
+              <!-- ✅ NEW Stock Qty -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Stock Quantity</label>
+                <input id="pStockQty" type="number" class="form-control" min="0" value="0">
+              </div>
+
+              <!-- ✅ NEW Colors -->
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Colors (comma separated)</label>
+                <input id="pColors" class="form-control" placeholder="Cream, Purple, Sky Blue">
+              </div>
+
+              <!-- ✅ Size Variants -->
+              <div class="mt-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div>
+                    <div class="fw-bold">Size Variants (Optional)</div>
+                    <div class="text-muted small">
+                      If product has multiple sizes, add them here.
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn btn-sm btn-outline-dark" onclick="Admin.addSizeRow()">
+                    <i class="bi bi-plus-circle me-1"></i> Add Size
+                  </button>
+                </div>
+
+                <div id="sizesBox" class="mt-3"></div>
+
+                <div class="text-muted small mt-2">
+                  Example: 0–3 Months = 2500, 3–6 Months = 2700, ...
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold">Description</label>
+                <input id="pDesc" class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Image URL</label>
+                <input id="pImgUrl" class="form-control" placeholder="cap1.jpg, cap2.jpg, cap3.jpg">
+                <div class="small text-muted">
+                  Write image names separated by comma
+                </div>
+
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Upload Images</label>
+                <input type="file" id="pImgFiles" multiple accept="image/*" class="form-control">
+              </div>
+
+              <!-- ✅ Preview -->
+              <div class="col-12">
+                <div id="imagePreview" class="row mt-2"></div>
+              </div>
+            </div>
+
+            <div class="col-12 mt-2">
+              <button class="btn btn-primary w-100" onclick="Admin.addProduct()">
+                Add Product ✅
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="admin-card p-3 mt-3">
+        <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center">
+          <h5 class="fw-bold mb-0"><i class="bi bi-box2-heart me-2"></i> Products</h5>
+          <input id="productSearch" class="form-control" style="max-width:260px" placeholder="Search product..."
+            oninput="Admin.renderProductsTable()">
+        </div>
+
+        <div class="table-responsive mt-3">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="admin-card p-3 mt-3">
+        <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center">
+          <h5 class="fw-bold mb-0"><i class="bi bi-receipt me-2"></i> Orders</h5>
+
+          <div class="d-flex gap-2 flex-wrap">
+            <input id="orderSearch" class="form-control" style="max-width:250px" placeholder="Search order id / phone"
+              oninput="Admin.renderOrdersTable()">
+
+            <select id="orderStatusFilter" class="form-select" style="max-width:220px"
+              onchange="Admin.renderOrdersTable()">
+              <option value="all">All Status</option>
+              <option>Pending</option>
+              <option>Confirmed</option>
+              <option>In Making</option>
+              <option>Ready</option>
+              <option>Shipped</option>
+              <option>Delivered</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive mt-3">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th style="width:120px">ETA</th>
+                <th>Status</th>
+                <th>Update</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="admin-card p-3 mt-3">
+        <h5 class="fw-bold mb-3"><i class="bi bi-gear-fill me-2"></i> Settings</h5>
+
+        <div class="row g-2">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Brand Name</label>
+            <input id="sBrand" class="form-control">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">WhatsApp</label>
+            <input id="sWhatsapp" class="form-control">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Instagram</label>
+            <input id="sInstagram" class="form-control">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Delivery</label>
+            <input id="sDelivery" class="form-control">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Advance Threshold</label>
+            <input id="sThreshold" type="number" class="form-control">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Advance Percent</label>
+            <input id="sPercent" type="number" class="form-control">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label fw-bold">Announcement</label>
+            <input id="sAnnouncement" class="form-control">
+          </div>
+
+          <div class="col-12 mt-2">
+            <button class="btn btn-primary w-100" onclick="Admin.saveSettings()">Save Settings ✅</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ORDER DETAILS MODAL -->
+  <div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Order Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="orderModalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Edit Product Modal -->
+  <div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Edit Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" id="editId">
+
+          <div class="row g-2">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Product Name</label>
+              <input type="text" id="editName" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Category</label>
+              <input type="text" id="editCategory" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Base Price</label>
+              <input type="number" id="editPrice" class="form-control" min="0">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Stock Quantity</label>
+              <input type="number" id="editStockQty" class="form-control" min="0">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-bold">Colors (comma separated)</label>
+              <input type="text" id="editColors" class="form-control" placeholder="Cream, Purple">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-bold">Description</label>
+              <textarea id="editDesc" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-bold">Existing Images</label>
+              <div id="editImagesPreview" class="row g-2"></div>
+              <div class="small text-muted mt-2">You can remove images from here.</div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-bold">Upload New Images (replace existing)</label>
+              <input type="file" id="editImages" class="form-control" multiple accept="image/*">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="Admin.saveEditProduct()">Save Changes ✅</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="adminPanel.js"></script>
+</body>
+
+</html>

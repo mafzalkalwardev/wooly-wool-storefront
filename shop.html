@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Shop — Wooly Wool</title>
+
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="page-enter">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+
+    <a class="navbar-brand brand-badge" href="index.html">
+      <span class="brand d-flex align-items-center gap-2">
+        <img src="assets/img/logo.png" alt="Wooly Wool Logo">
+        <span>
+          <div class="fw-bold">Wooly Wool</div>
+          <div class="tag">Stitches With Love</div>
+        </span>
+      </span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto gap-lg-2 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="track-order.html">Track Order</a></li>
+
+        <!-- Cart with badge -->
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="cart.html">
+            <i class="bi bi-cart3 me-1"></i> Cart
+            <span id="cartBadge"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display:none;">0</span>
+          </a>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="dashboard/admin.html">Admin</a></li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="py-5">
+  <div class="container">
+    <div class="hero-box fade-up hover-glow p-4">
+      <h1 class="hero-title mb-2">Shop</h1>
+      <p class="hero-sub mb-0">
+        Browse handmade wool items & custom embroidery ✨
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- PRODUCTS -->
+<main class="pb-5">
+  <div class="container">
+
+    <div class="row g-2 align-items-center mb-3">
+      <div class="col-md-6">
+        <input id="shopSearch" type="text" class="form-control"
+               placeholder="Search products..."
+               oninput="filterShopProducts()">
+      </div>
+      <div class="col-md-6 text-md-end">
+        <a class="btn btn-outline-light" href="cart.html">
+          <i class="bi bi-bag-check me-2"></i> View Cart
+        </a>
+      </div>
+    </div>
+
+    <div class="row g-3" id="shopGrid"></div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer mt-5">
+  <div class="container py-5">
+    <div class="row g-4 align-items-start">
+
+      <div class="col-lg-5">
+        <div class="fw-bold fs-5">Wooly Wool</div>
+        <div class="text-muted-custom mt-2" style="max-width:48ch;">
+          Handmade wool items & custom embroidery — crafted with care and delivered across World.
+        </div>
+
+        <div class="mt-3 small text-muted-custom d-flex flex-column gap-2">
+          <div><i class="bi bi-truck me-2"></i>Delivery across all over World</div>
+          <div><i class="bi bi-clock me-2"></i>Support: 10 AM – 10 PM</div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="row g-4">
+
+          <div class="col-md-4">
+            <div class="fw-bold mb-2">Quick Links</div>
+            <div class="d-flex flex-column gap-2">
+              <a href="index.html">Home</a>
+              <a href="shop.html">Shop</a>
+              <a href="about.html">About</a>
+              <a href="contact.html">Contact</a>
+              <a href="dashboard/admin.html">Admin</a>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="fw-bold mb-2">Policies</div>
+            <div class="d-flex flex-column gap-2">
+              <a href="return-policy.html">Return Policy</a>
+              <a href="policy.html">Payment Policy</a>
+              <a href="shipping-policy.html">Shipping Policy</a>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="fw-bold mb-2">Contact</div>
+            <div class="d-flex flex-column gap-2">
+              <a class="d-inline-flex align-items-center gap-2" target="_blank" href="https://wa.me/923330945633">
+                <i class="bi bi-whatsapp"></i>
+                <span>+92 333 0945633</span>
+              </a>
+
+              <a class="d-inline-flex align-items-center gap-2" target="_blank"
+                 href="https://www.instagram.com/wooly_wool_?igsh=MnB4NzNkaWI1N2pu">
+                <i class="bi bi-instagram"></i>
+                <span>@wooly_wool_</span>
+              </a>
+
+              <a class="nav-link" href="track-order.html"><i class="bi bi-truck me-2"></i> Track Order</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 small text-muted-custom">
+      <div>© <span id="year"></span> Wooly Wool. All rights reserved.</div>
+      <div>Made with care • Handmade products</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a id="floatingWhatsApp" class="floating-whatsapp" href="#" target="_blank">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ✅ Render Shop
+  document.addEventListener("DOMContentLoaded", () => {
+    renderShopProducts("shopGrid");
+  });
+</script>
+
+<!-- ✅ Shop Page extra logic -->
+<script>
+  let ALL_PRODUCTS = [];
+
+  function filterShopProducts(){
+    const q = (document.getElementById("shopSearch").value || "").toLowerCase().trim();
+    const filtered = ALL_PRODUCTS.filter(p =>
+      (p.name||"").toLowerCase().includes(q) ||
+      (p.category||"").toLowerCase().includes(q)
+    );
+    renderShopProductsUI(filtered);
+  }
+
+  function qtyMinusShop(id){
+    const input = document.getElementById("qty_" + id);
+    if(!input) return;
+    input.value = Math.max(1, Number(input.value || 1) - 1);
+  }
+
+  function qtyPlusShop(id){
+    const input = document.getElementById("qty_" + id);
+    if(!input) return;
+    input.value = Number(input.value || 1) + 1;
+  }
+
+  function addToCartFromShop(productId){
+    const products = JSON.parse(localStorage.getItem("woolywool_products") || "[]");
+    const p = products.find(x => x.id === productId);
+    if(!p) return;
+
+    let sizeLabel = "";
+    if(p.sizes && p.sizes.length){
+      sizeLabel = document.getElementById("size_" + productId)?.value || "";
+      if(!sizeLabel){
+        showToast("Please select size first ✅");
+        return;
+      }
+    }
+
+    const qty = Number(document.getElementById("qty_" + productId)?.value || 1);
+
+    for(let i=0;i<qty;i++){
+      addToCart(productId, sizeLabel);
+    }
+
+    showToast("Added to cart ✅");
+  }
+
+  // ✅ Override renderShopProducts with shop UI supporting qty
+  function renderShopProducts(gridId = "shopGrid"){
+    const grid = document.getElementById(gridId);
+    if(!grid) return;
+
+    ALL_PRODUCTS = JSON.parse(localStorage.getItem("woolywool_products") || "[]")
+      .filter(p => p.active);
+
+    renderShopProductsUI(ALL_PRODUCTS);
+  }
+
+  function renderShopProductsUI(products){
+    const grid = document.getElementById("shopGrid");
+    if(!grid) return;
+
+    if(!products.length){
+      grid.innerHTML = `
+        <div class="col-12">
+          <div class="product-card p-4 text-center text-muted-custom">
+            No products available.
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = products.map(p => {
+      const hasSizes = p.sizes && p.sizes.length;
+
+      const img = (p.images && p.images.length) ? p.images[0] : (p.image || "");
+
+      let displayPrice = Number(p.price || 0);
+      if(hasSizes) displayPrice = Math.min(...p.sizes.map(s => Number(s.price || 0)));
+
+      return `
+        <div class="col-md-4">
+          <div class="product-card h-100 hover-lift">
+            <a href="product.html?id=${p.id}">
+              <img class="product-thumb" src="${img}" alt="${p.name}">
+            </a>
+
+            <div class="p-3">
+              <a href="product.html?id=${p.id}" class="text-decoration-none">
+                <div class="fw-bold text-dark">${p.name}</div>
+              </a>
+              <div class="text-muted-custom small">${p.category}</div>
+
+              <div class="mt-2 fw-bold">
+                ${hasSizes ? `From ${formatPKR(displayPrice)}` : formatPKR(displayPrice)}
+              </div>
+
+              <div class="small text-muted-custom mt-2" style="min-height:44px;">
+                ${p.description || ""}
+              </div>
+
+              ${hasSizes ? `
+                <div class="mt-2">
+                  <select class="form-select form-select-sm" id="size_${p.id}">
+                    <option value="">Select size</option>
+                    ${p.sizes.map(s => `
+                      <option value="${s.label}">
+                        ${s.label} — ${formatPKR(s.price)}
+                      </option>
+                    `).join("")}
+                  </select>
+                </div>
+              ` : ""}
+
+              <!-- ✅ Qty +/ -->
+              <div class="d-flex align-items-center gap-2 mt-3">
+                <button class="btn btn-outline-dark btn-sm" onclick="qtyMinusShop('${p.id}')">-</button>
+                <input id="qty_${p.id}" type="number" min="1" value="1"
+                  class="form-control form-control-sm" style="max-width:90px;">
+                <button class="btn btn-outline-dark btn-sm" onclick="qtyPlusShop('${p.id}')">+</button>
+              </div>
+
+              <div class="mt-3">
+                <button class="btn btn-primary w-100" onclick="addToCartFromShop('${p.id}')">
+                  <i class="bi bi-cart-plus me-2"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+</script>
+
+</body>
+</html>

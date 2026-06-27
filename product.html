@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Product — Wooly Wool</title>
+
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="page-enter">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+
+    <a class="navbar-brand brand-badge" href="index.html">
+      <span class="brand d-flex align-items-center gap-2">
+        <img src="assets/img/logo.png" alt="Wooly Wool Logo">
+        <span>
+          <div class="fw-bold">Wooly Wool</div>
+          <div class="tag">Stitches With Love</div>
+        </span>
+      </span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto gap-lg-2 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="cart.html">
+            <i class="bi bi-cart3 me-1"></i> Cart
+            <span id="cartBadge"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display:none;">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<main class="py-5">
+  <div class="container">
+    <div id="productBox"></div>
+  </div>
+</main>
+
+<footer class="footer mt-5">
+  <div class="container py-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="text-muted-custom small">© <span id="year"></span> Wooly Wool</div>
+    <div class="text-muted-custom small">Delivery across all over World</div>
+  </div>
+</footer>
+
+<a id="floatingWhatsApp" class="floating-whatsapp" href="#" target="_blank">
+   <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  let __selectedColor = "";
+
+  function getQueryParam(name){
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+
+  function safeImg(p){
+    if(p?.images && p.images.length) return p.images[0];
+    if(p?.image) return p.image;
+    return "assets/img/placeholder.png";
+  }
+
+  function setMainImage(src){
+    const main = document.getElementById("mainProductImg");
+    if(main) main.src = src;
+  }
+
+  function qtyMinus(){
+    const q = document.getElementById("detailQty");
+    if(!q) return;
+    q.value = Math.max(1, Number(q.value || 1) - 1);
+  }
+
+  function qtyPlus(){
+    const q = document.getElementById("detailQty");
+    if(!q) return;
+    q.value = Number(q.value || 1) + 1;
+  }
+
+  function selectColor(color){
+    __selectedColor = color;
+
+    document.querySelectorAll(".color-chip").forEach(btn => btn.classList.remove("active"));
+    const activeBtn = document.querySelector(`[data-color="${color}"]`);
+    if(activeBtn) activeBtn.classList.add("active");
+
+    showToast("Color selected ✅");
+  }
+
+  function updateDetailPrice(productId){
+    const products = JSON.parse(localStorage.getItem("woolywool_products") || "[]");
+    const p = products.find(x => x.id === productId);
+    if(!p) return;
+
+    const sel = document.getElementById("detailSize");
+    const priceBox = document.getElementById("detailPrice");
+    if(!sel || !priceBox) return;
+
+    const opt = sel.options[sel.selectedIndex];
+    const price = opt?.getAttribute("data-price");
+
+    if(price){
+      priceBox.textContent = formatPKR(Number(price));
+    }
+  }
+
+  function addProductDetailToCart(productId){
+    const products = JSON.parse(localStorage.getItem("woolywool_products") || "[]");
+    const p = products.find(x => x.id === productId);
+    if(!p) return;
+
+    // size must selected if sizes exist
+    let sizeLabel = "";
+    if(p.sizes && p.sizes.length){
+      sizeLabel = document.getElementById("detailSize")?.value || "";
+      if(!sizeLabel){
+        showToast("Please select size ✅");
+        return;
+      }
+    }
+
+    // color must selected if colors exist
+    if(p.colors && p.colors.length){
+      if(!__selectedColor){
+        showToast("Please select color ✅");
+        return;
+      }
+    }
+
+    const qty = Number(document.getElementById("detailQty")?.value || 1);
+
+    // ✅ store color with size in cart using sizeLabel format
+    const finalSizeLabel = sizeLabel + ( __selectedColor ? (" | " + __selectedColor) : "" );
+
+    for(let i=0;i<qty;i++){
+      addToCart(productId, finalSizeLabel);
+    }
+
+    showToast("Added to cart ✅");
+  }
+
+  function renderProductDetails(){
+    const box = document.getElementById("productBox");
+    if(!box) return;
+
+    const id = getQueryParam("id");
+    const products = JSON.parse(localStorage.getItem("woolywool_products") || "[]")
+      .filter(p => p.active);
+
+    const p = products.find(x => x.id === id);
+
+    if(!p){
+      box.innerHTML = `
+        <div class="product-card p-4 text-center text-muted-custom">
+          Product not found.
+          <div class="mt-3">
+            <a class="btn btn-primary" href="shop.html">Back to shop</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    const imgs = (p.images && p.images.length) ? p.images : [safeImg(p)];
+    const colors = (p.colors && p.colors.length) ? p.colors : [];
+    const hasSizes = (p.sizes && p.sizes.length);
+
+    let startingPrice = 0;
+    if(hasSizes){
+      startingPrice = Math.min(...p.sizes.map(s => Number(s.price || 0)));
+    }else{
+      startingPrice = Number(p.price || 0);
+    }
+
+    box.innerHTML = `
+      <div class="row g-4 align-items-start">
+
+        <div class="col-lg-5">
+          <div class="product-card p-3">
+            <img id="mainProductImg"
+              src="${imgs[0]}"
+              onerror="this.src='assets/img/placeholder.png'"
+              style="width:100%;height:420px;object-fit:cover;border-radius:18px;"
+              alt="${p.name}">
+
+            ${imgs.length > 1 ? `
+              <div class="d-flex gap-2 mt-3 flex-wrap">
+                ${imgs.map(im => `
+                  <img src="${im}"
+                    onerror="this.src='assets/img/placeholder.png'"
+                    onclick="setMainImage('${im}')"
+                    style="width:72px;height:60px;object-fit:cover;border-radius:14px;cursor:pointer;border:2px solid transparent">
+                `).join("")}
+              </div>
+            ` : ""}
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="product-card p-4">
+
+            <div class="small text-muted-custom">${p.category || ""}</div>
+            <h2 class="fw-bold mt-2">${p.name}</h2>
+
+            <div class="fs-4 fw-bold mt-2" id="detailPrice">
+              ${hasSizes ? ("From " + formatPKR(startingPrice)) : formatPKR(startingPrice)}
+            </div>
+
+            <div class="text-muted-custom mt-2">
+              ${p.description || ""}
+            </div>
+
+            <hr class="my-4">
+
+            ${colors.length ? `
+              <div class="fw-bold mb-2">Select Color</div>
+              <div class="d-flex gap-2 flex-wrap">
+                ${colors.map(c => `
+                  <button class="btn btn-sm btn-outline-dark color-chip"
+                    data-color="${c}"
+                    onclick="selectColor('${c}')">${c}</button>
+                `).join("")}
+              </div>
+              <div class="small text-muted-custom mt-2">Color selection is required ✅</div>
+            ` : ""}
+
+            ${hasSizes ? `
+              <div class="fw-bold mt-4 mb-2">Select Size</div>
+              <select class="form-select" id="detailSize" onchange="updateDetailPrice('${p.id}')">
+                <option value="">Select size</option>
+                ${p.sizes.map(s => `
+                  <option value="${s.label}" data-price="${s.price}">
+                    ${s.label} — ${formatPKR(s.price)}
+                  </option>
+                `).join("")}
+              </select>
+            ` : ""}
+
+            <div class="fw-bold mt-4 mb-2">Quantity</div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-outline-dark" onclick="qtyMinus()">-</button>
+              <input id="detailQty" type="number" min="1" value="1"
+                class="form-control" style="max-width:110px;">
+              <button class="btn btn-outline-dark" onclick="qtyPlus()">+</button>
+            </div>
+
+            <div class="mt-4 d-flex gap-2 flex-wrap">
+              <button class="btn btn-primary px-4" onclick="addProductDetailToCart('${p.id}')">
+                <i class="bi bi-cart-plus me-2"></i> Add to Cart
+              </button>
+              <a class="btn btn-outline-dark px-4" href="cart.html">
+                <i class="bi bi-bag-check me-2"></i> Go to Cart
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderProductDetails();
+  });
+</script>
+
+<style>
+  .color-chip.active{
+    background:#1f1b16 !important;
+    border-color:#1f1b16 !important;
+    color:#fff !important;
+  }
+</style>
+
+</body>
+</html>
